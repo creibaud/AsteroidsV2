@@ -1,5 +1,6 @@
 import pygame
 import math
+import components.Bullets as Bullets
 import core.core as core
 
 def setUp():
@@ -30,6 +31,8 @@ def setUp():
     core.memory("SpaceShipA", P + core.spaceShipSettings.LENGTH * axe)
     core.memory("SpaceShipB", P + core.spaceShipSettings.WIDTH * axe.rotate(-math.degrees(alpha)))
     core.memory("SpaceShipC", P + core.spaceShipSettings.WIDTH * axe.rotate(math.degrees(alpha)))
+
+    Bullets.setUp()
 
 def update():
     thrusting = core.memory("SpaceShipThrusting")
@@ -74,6 +77,10 @@ def update():
     core.memory("SpaceShipB", P + core.spaceShipSettings.WIDTH * axe.rotate(-math.degrees(alpha)))
     core.memory("SpaceShipC", P + core.spaceShipSettings.WIDTH * axe.rotate(math.degrees(alpha)))
 
+    bullets = core.memory("bullets")
+    Bullets.update()
+    bullets = [bullet for bullet in bullets if bullet[0].x <= core.screenSettings.WIDTH and bullet[0].x >= 0 and bullet[0].y <= core.screenSettings.HEIGHT and bullet[0].y >= 0]
+
 def accelerate():
     axe = core.memory("SpaceShipAxe")
     acceleration = core.memory("SpaceShipAcceleration")
@@ -90,6 +97,12 @@ def rotate(angle):
     axe = core.memory("SpaceShipAxe")
     axe.rotate_ip(math.degrees(angle))
     axe = core.memory("SpaceShipAxe")
+
+def shoot():
+    axe = core.memory("SpaceShipAxe")
+    direction = axe.copy()
+    A = core.memory("SpaceShipA")
+    Bullets.add(A, direction)
 
 def draw(color):
     P = core.memory("SpaceShipP")

@@ -18,5 +18,9 @@ def spaceShipAccelerate(isAcceleration):
     else:
         SpaceShip.decelerate()
 
+def shootSpaceShip():
+    SpaceShip.shoot()
+
 def draw():
     SpaceShip.draw((255, 255, 255))
+    SpaceShip.Bullets.draw()

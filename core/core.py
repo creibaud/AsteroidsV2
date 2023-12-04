@@ -2,6 +2,7 @@ import sys
 import core.settings.memory as memorySettings
 import core.settings.screen as screenSettings
 import core.settings.SpaceShip as spaceShipSettings
+import core.settings.bullet as bulletSettings
 import core.screen as screenSetUp
 import core.SpaceShip as spaceShipSetUp
 

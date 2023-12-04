@@ -21,8 +21,8 @@ def main():
 
     core.memory("GameAngle", math.radians(0))
     core.memory("GameIsAcceleration", math.radians(0))
-
-    core.printMemory()
+    core.memory("Shooting", False)
+    core.memory("GameLastShootTime", pygame.time.get_ticks())
 
     run = True
     while run:
@@ -46,14 +46,28 @@ def main():
                 
                 if event.key == pygame.K_z:
                     core.memory("GameIsAcceleration", False)
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    core.memory("Shooting", True)
+        
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    core.memory("Shooting", False)
 
         angle = core.memory("GameAngle")
         isAcceleration = core.memory("GameIsAcceleration")
+        shoot = core.memory("Shooting")
+        lastShootTime = core.memory("GameLastShootTime")
         
         core.screenSetUp.clean()
 
         Game.rotateSpaceShip(angle)
         Game.spaceShipAccelerate(isAcceleration)
+
+        if shoot and (pygame.time.get_ticks() - lastShootTime) > core.bulletSettings.SHOOT_INTERVAL:
+            core.memory("GameLastShootTime", pygame.time.get_ticks())
+            Game.shootSpaceShip()
 
         Game.update()
         Game.draw()
