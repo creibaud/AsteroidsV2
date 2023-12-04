@@ -1,0 +1,7 @@
+SCREEN = None
+TITLE = ""
+WIDTH = 0
+HEIGHT = 0
+FULLSCREEN = False
+FPS = 0
+BACKGROUND_COLOR = None
