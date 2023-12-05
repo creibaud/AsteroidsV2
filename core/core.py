@@ -4,6 +4,7 @@ import core.settings.screen as screenSettings
 import core.settings.SpaceShip as spaceShipSettings
 import core.settings.bullet as bulletSettings
 import core.settings.asteroid as asteroidSettings
+import core.settings.game as gameSettings
 import core.screen as screenSetUp
 import core.SpaceShip as spaceShipSetUp
 
