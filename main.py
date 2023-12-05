@@ -23,6 +23,8 @@ def main():
     core.memory("GameIsAcceleration", math.radians(0))
     core.memory("Shooting", False)
     core.memory("GameLastShootTime", pygame.time.get_ticks())
+    core.memory("CanBeHitTime", pygame.time.get_ticks())
+    core.memory("GameOver", False)
 
     run = True
     while run:
@@ -59,6 +61,10 @@ def main():
         isAcceleration = core.memory("GameIsAcceleration")
         shoot = core.memory("Shooting")
         lastShootTime = core.memory("GameLastShootTime")
+        life = core.memory("life")
+        canBeHitTime = core.memory("CanBeHitTime")
+        canBeHit = core.memory("canBeHit")
+        GameOver = core.memory("GameOver")
         
         core.screenSetUp.clean()
 
@@ -69,8 +75,23 @@ def main():
             core.memory("GameLastShootTime", pygame.time.get_ticks())
             Game.shootSpaceShip()
 
+        if Game.spaceShipCollisionWithAsteroid() and canBeHit:
+            life -= 1
+            core.memory("canBeHit", False)
+            core.memory("CanBeHitTime", pygame.time.get_ticks())
+            core.memory("life", life)
+
+        if pygame.time.get_ticks() - canBeHitTime > 3000 and not canBeHit:
+            core.memory("canBeHit", True)
+
+        if life <= 0:
+            core.memory("GameOver", True)
+            print("GameOver")
+
         Game.update()
         Game.draw()
+
+        print(canBeHit)
 
         pygame.display.update()
         clock.tick(core.screenSettings.FPS)

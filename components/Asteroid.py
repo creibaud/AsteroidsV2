@@ -6,25 +6,22 @@ import core.core as core
 def setUp():
     core.memory("asteroids", [])
 
-def add(position, direction):
+def add(position, direction, size = None,):
     asteroids = core.memory("asteroids")
-    size = random.choice(core.asteroidSettings.SIZE)
-    print(size)
-    asteroids.append([position, direction, generateRandomPolygon(position, size), size])
+    newSize = size
+
+    if size is None:
+        newSize = random.choice(core.asteroidSettings.SIZE)
+
+    newSpeed = random.uniform(1, core.asteroidSettings.MAX_SPEED)
+    asteroids.append([position, direction, generateRandomPolygon(position, newSize), newSize, newSpeed])
     core.memory("asteroids", asteroids)
 
 def generateRandomPolygon(position, size):
     numVertices = random.randint(5, 12)
     angleIncrement = 360 / numVertices
 
-    actualRadius = 0
-
-    if size == "small":
-        actualRadius = core.asteroidSettings.RADIUS // 3
-    elif size == "medium":
-        actualRadius = core.asteroidSettings.RADIUS // 2
-    else:
-        actualRadius = core.asteroidSettings.RADIUS
+    actualRadius = getRadius(size)
 
     vertices = []
     for i in range(numVertices):
@@ -35,12 +32,21 @@ def generateRandomPolygon(position, size):
         vertices.append(pygame.math.Vector2(x, y))
     return vertices
 
+def getRadius(size):
+    if size == "small":
+        return core.asteroidSettings.RADIUS // 3
+    elif size == "medium":
+        return core.asteroidSettings.RADIUS // 2
+    else:
+        return core.asteroidSettings.RADIUS
+
 def update():
     asteroids = core.memory("asteroids")
     for i in range(0, len(asteroids)):
         position = asteroids[i][0]
         direction = asteroids[i][1]
-        position += direction * core.asteroidSettings.MAX_SPEED
+        speed = asteroids[i][len(asteroids[i]) - 1]
+        position += direction * speed
 
         if position.x <= 0:
             position.x = core.screenSettings.WIDTH
@@ -55,6 +61,17 @@ def update():
         asteroids[i][2] = generateRandomPolygon(position, asteroids[i][3])
 
     core.memory("asteroids", asteroids)
+
+def breakApart(asteroid, size):
+    position = asteroid[0]
+    if size == "big":
+        add(position + pygame.math.Vector2(random.randint(0, 5), random.randint(0, 5)), pygame.Vector2(1, 0).rotate(random.uniform(0, 360)), "medium")
+        add(position + pygame.math.Vector2(random.randint(0, 5), random.randint(0, 5)), pygame.Vector2(1, 0).rotate(random.uniform(0, 360)), "medium")
+    elif size == "medium":
+        add(position + pygame.math.Vector2(random.randint(0, 5), random.randint(0, 5)), pygame.Vector2(1, 0).rotate(random.uniform(0, 360)), "small")
+        add(position + pygame.math.Vector2(random.randint(0, 5), random.randint(0, 5)), pygame.Vector2(1, 0).rotate(random.uniform(0, 360)), "small")
+    else:
+        pass
 
 def draw():
     asteroids = core.memory("asteroids")

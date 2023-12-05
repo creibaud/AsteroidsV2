@@ -33,6 +33,8 @@ def setUp():
     core.memory("SpaceShipC", P + core.spaceShipSettings.WIDTH * axe.rotate(math.degrees(alpha)))
 
     Bullets.setUp()
+    core.memory("canBeHit", False)
+    core.memory("framesHitAnimation", 0)
 
 def update():
     thrusting = core.memory("SpaceShipThrusting")
@@ -103,6 +105,21 @@ def shoot():
     direction = axe.copy()
     A = core.memory("SpaceShipA")
     Bullets.add(A, direction)
+
+def animationHit():
+    framesHitAnimation = core.memory("framesHitAnimation")
+
+    if framesHitAnimation < 15:
+        draw((0, 0, 0))
+    else:
+        draw((255, 165, 0))
+
+    framesHitAnimation += 1
+    core.memory("framesHitAnimation", framesHitAnimation)
+    framesHitAnimation = core.memory("framesHitAnimation")
+    
+    if framesHitAnimation > 30:
+        core.memory("framesHitAnimation", 0)
 
 def draw(color):
     P = core.memory("SpaceShipP")
