@@ -57,6 +57,7 @@ def bulletCollisionWithAsteroid():
             asteroidPosition = asteroid[0]
             asteroidSize = asteroid[3]
             score = core.memory("score")
+            giveLife = asteroid[len(asteroid) - 1]
 
             if bulletPosition.distance_to(asteroidPosition) < Asteroid.getRadius(asteroidSize) + core.bulletSettings.BULLET_RADIUS:
                 if asteroidSize != "small":
@@ -67,6 +68,10 @@ def bulletCollisionWithAsteroid():
                         core.memory("score", score + 50)
                 else:
                     core.memory("score", score + 25)
+
+                if giveLife:
+                    life = core.memory("life")
+                    core.memory("life", life + 1)
                 
                 bullets.remove(bullet)
                 asteroids.remove(asteroid)

@@ -21,6 +21,7 @@ def setUp():
     core.memory("CanBeHitTime", pygame.time.get_ticks())
     core.memory("createAsteroidTime", pygame.time.get_ticks())
     core.memory("GameOver", False)
+    core.memory("StartGame", False)
 
 def main():
     pygame.init()
@@ -28,8 +29,6 @@ def main():
     clock = pygame.time.Clock()
     setUpScreen()
     setUp()
-
-    core.memory("StartGame", False)
 
     run = True
     while run:
