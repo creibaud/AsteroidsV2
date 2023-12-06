@@ -4,10 +4,12 @@ import math
 import core.core as core
 import components.SpaceShip as SpaceShip
 import components.Asteroid as Asteroid
+import components.Button as Button
 
 def setUp():
     SpaceShip.setUp()
     Asteroid.setUp()
+    Button.setUp()
 
     for i in range(0, 10):
         createRandomAsteroid()
@@ -137,6 +139,7 @@ def displayLevel():
 def draw():
     canBeHit = core.memory("canBeHit")
     GameOver = core.memory("GameOver")
+    StartGame = core.memory("StartGame")
 
     if not GameOver:
         if not canBeHit:
@@ -151,3 +154,6 @@ def draw():
     displayLife()
     displayScore()
     displayLevel()
+
+    if not StartGame:
+        Button.draw()

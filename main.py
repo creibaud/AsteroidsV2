@@ -59,9 +59,6 @@ def main():
                 
                 if event.key == pygame.K_r:
                     setUp()
-
-                if event.key == pygame.K_SPACE:
-                    core.memory("StartGame", True)
             
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_q or event.key == pygame.K_d:
@@ -72,7 +69,14 @@ def main():
             
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    core.memory("Shooting", True)
+                    mousePosition = pygame.mouse.get_pos()
+                    rect = core.memory("rectButton")
+
+                    if rect.collidepoint(mousePosition) and not StartGame:
+                        core.memory("StartGame", True)
+                    
+                    if StartGame:
+                        core.memory("Shooting", True)
         
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
@@ -100,13 +104,9 @@ def main():
                 Game.update()
                 Game.draw()
 
-                fontStartGame = pygame.font.Font(None, 50)
                 fontTitle = pygame.font.Font(None, 100)
-                startGameText = fontStartGame.render("Press Space to start", True, (255, 255, 255))
                 titleText = fontTitle.render("Asteroids", True, (255, 255, 255))
                 core.screenSettings.SCREEN.blit(titleText, (core.screenSettings.WIDTH / 2 - titleText.get_width() / 2, 200))
-                core.screenSettings.SCREEN.blit(startGameText, (core.screenSettings.WIDTH / 2 - startGameText.get_width() / 2, core.screenSettings.HEIGHT / 2 - startGameText.get_height() / 2))
-            
             else:
                 Game.rotateSpaceShip(angle)
                 Game.spaceShipAccelerate(isAcceleration)
