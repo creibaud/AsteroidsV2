@@ -57,6 +57,17 @@ def musicSetUp():
     pygame.mixer.music.set_endevent(pygame.constants.USEREVENT)
     pygame.mixer.music.play(-1)
 
+def readFile(filename):
+    file = open(filename, "r")
+    content = file.read()
+    file.close()
+    return content
+
+def writeFile(filename, content):
+    file = open(filename, "w")
+    file.write(content)
+    file.close()
+
 # Main function
 def main():
     # Initialize pygame
@@ -69,6 +80,10 @@ def main():
     setUpScreen()
     setUp()
     musicSetUp()
+
+    # Read File
+    path = "data/BestScore.txt"
+    core.memory("BestScore", readFile(path))
 
     # Loop main variable
     run = True
@@ -172,6 +187,13 @@ def main():
             # We continue the animation of the game but the user can't move the ship
             Game.update()
             Game.draw()
+
+            score = int(core.memory("score"))
+            BestScore = int(core.memory("BestScore"))
+
+            if score > BestScore:
+                writeFile(path, str(score))
+                core.memory("BestScore", score)
             
             # We display the text
             core.screenSettings.SCREEN.blit(gameOverText, (core.screenSettings.WIDTH / 2 - gameOverText.get_width() / 2, core.screenSettings.HEIGHT / 2 - gameOverText.get_height() / 2))
@@ -190,12 +212,17 @@ def main():
                 
                 # Set up the font
                 fontTitle = pygame.font.Font(None, 100)
+                fontBestScore = pygame.font.Font(None, 50)
+
+                ActualBestScore = core.memory("BestScore")
                 
                 # Set up the text
                 titleText = fontTitle.render("Asteroids", True, (255, 255, 255))
-                
+                bestScoreText = fontBestScore.render("Best Score : " + str(ActualBestScore), True, (255, 255, 255))
+
                 # We display the text
                 core.screenSettings.SCREEN.blit(titleText, (core.screenSettings.WIDTH / 2 - titleText.get_width() / 2, 200))
+                core.screenSettings.SCREEN.blit(bestScoreText, (core.screenSettings.WIDTH / 2 - bestScoreText.get_width() / 2, 290))
             
             # If the game is started then we display the game
             else:
@@ -247,7 +274,6 @@ def main():
                 Game.draw()
 
         # We update the screen
-        print(core.memory("SpaceShipAcceleration").length(), core.memory("SpaceShipVelocity").length())
         pygame.display.update()
 
         # We regulate the frames
