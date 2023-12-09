@@ -141,4 +141,4 @@ def draw(color):
     B = core.memory("SpaceShipB")
     A = core.memory("SpaceShipA")
     C = core.memory("SpaceShipC")
-    pygame.draw.polygon(core.screenSettings.SCREEN, color, [P, B, A, C], 1)
+    pygame.draw.polygon(core.screenSettings.SCREEN, color, [P, B, A, C], 3)
