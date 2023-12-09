@@ -3,7 +3,9 @@ import math
 import components.Bullets as Bullets
 import core.core as core
 
+# Set up the spaceship
 def setUp():
+    # Initialize the main variables of the spaceship
     core.spaceShipSetUp.setLenght(20)
     core.spaceShipSetUp.setWidth(10)
     core.spaceShipSetUp.setRotationSpeed(5)
@@ -11,39 +13,52 @@ def setUp():
     core.spaceShipSetUp.setMaxSpeed(5)
     core.spaceShipSetUp.setDeceleration(0.75)
 
-    core.memory("SpaceShipX", core.screenSettings.WIDTH / 2)
-    core.memory("SpaceShipY", core.screenSettings.HEIGHT / 2)
-    core.memory("SpaceShipVelocity", pygame.math.Vector2(0, 0))
-    core.memory("SpaceShipAcceleration", pygame.math.Vector2(0, 0))
-    core.memory("SpaceShipThrusting", False)
+    # Initialize the position, velocity, acceleration, axe, alpha and points of the spaceship
 
+    # Initialize the horizontal position
+    core.memory("SpaceShipX", core.screenSettings.WIDTH / 2)
+
+    # Initialize the vertical position
+    core.memory("SpaceShipY", core.screenSettings.HEIGHT / 2)
+
+    # Initialize the velocity
+    core.memory("SpaceShipVelocity", pygame.math.Vector2(0, 0))
+
+    # Initialize the acceleration
+    core.memory("SpaceShipAcceleration", pygame.math.Vector2(0, 0))
+
+    # Get the position of the spaceship
     x = core.memory("SpaceShipX")
     y = core.memory("SpaceShipY")
 
+    # Initialize the P point of the geometry of the spaceship
     core.memory("SpaceShipP", pygame.math.Vector2(x, y))
+
+    # Initialize the alpha angle of the geometry of the spaceship
     core.memory("SpaceShipAlpha", math.radians(120))
+
+    # Initialize the axe of the geometry of the spaceship
     core.memory("SpaceShipAxe", pygame.math.Vector2(1, 0))
 
+    # Get P, axe and alpha
     P = core.memory("SpaceShipP")
     alpha = core.memory("SpaceShipAlpha")
     axe = core.memory("SpaceShipAxe")
 
+    # Initialize the A, B and C point of the geometry of the spaceship
     core.memory("SpaceShipA", P + core.spaceShipSettings.LENGTH * axe)
     core.memory("SpaceShipB", P + core.spaceShipSettings.WIDTH * axe.rotate(-math.degrees(alpha)))
     core.memory("SpaceShipC", P + core.spaceShipSettings.WIDTH * axe.rotate(math.degrees(alpha)))
 
+    # Initialize the bullets
     Bullets.setUp()
+
+    # Initialize the canBeHit and framesHitAnimation
     core.memory("canBeHit", False)
     core.memory("framesHitAnimation", 0)
 
-def update():
-    thrusting = core.memory("SpaceShipThrusting")
-
-    if thrusting:
-        accelerate()
-    else:
-        decelerate()
-    
+# Update the spaceship
+def update():    
     velocity = core.memory("SpaceShipVelocity")
     accelerate = core.memory("SpaceShipAcceleration")
     velocity += accelerate
@@ -86,7 +101,7 @@ def update():
 def accelerate():
     axe = core.memory("SpaceShipAxe")
     acceleration = core.memory("SpaceShipAcceleration")
-    thrustVector= axe * core.spaceShipSettings.THRUST_POWER
+    thrustVector = axe * core.spaceShipSettings.THRUST_POWER
     acceleration += thrustVector
     core.memory("SpaceShipAcceleration", acceleration)
 
@@ -126,4 +141,4 @@ def draw(color):
     B = core.memory("SpaceShipB")
     A = core.memory("SpaceShipA")
     C = core.memory("SpaceShipC")
-    pygame.draw.polygon(core.screenSettings.SCREEN, color, [P, B, A, C], 3)
+    pygame.draw.polygon(core.screenSettings.SCREEN, color, [P, B, A, C], 1)
