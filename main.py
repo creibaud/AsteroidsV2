@@ -23,12 +23,22 @@ def setUp():
     core.memory("GameOver", False)
     core.memory("StartGame", False)
 
+def musicSetUp():
+    path = "assets/music.mp3"
+    pygame.mixer.init()
+
+    pygame.mixer.music.load(path)
+
+    pygame.mixer.music.set_endevent(pygame.constants.USEREVENT)
+    pygame.mixer.music.play(-1)
+
 def main():
     pygame.init()
 
     clock = pygame.time.Clock()
     setUpScreen()
     setUp()
+    musicSetUp()
 
     run = True
     while run:
@@ -46,6 +56,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+            if event.type == pygame.constants.USEREVENT:
+                pygame.mixer.music.play()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
@@ -136,7 +149,8 @@ def main():
 
         pygame.display.update()
         clock.tick(core.screenSettings.FPS)
-
+        
+    pygame.mixer.quit()
     pygame.quit()
     sys.exit()
 
