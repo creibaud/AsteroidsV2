@@ -7,6 +7,9 @@ import components.Asteroid as Asteroid
 import components.Button as Button
 
 def setUp():
+    core.gameSetUp.setCanBeHitInterval(3000)
+    core.gameSetUp.setDecreasingInterval(2375)
+    core.gameSetUp.setCreateAsteroidInterval(5000)
     SpaceShip.setUp()
     Asteroid.setUp()
     Button.setUp()

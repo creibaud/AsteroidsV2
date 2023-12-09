@@ -4,6 +4,10 @@ import random
 import core.core as core
 
 def setUp():
+    core.asteroidSetUp.setRadius(30)
+    core.asteroidSetUp.setSize(["big", "medium", "small"])
+    core.asteroidSetUp.setMaxSpeed(5)
+    core.asteroidSetUp.setAnimationInterval(500)
     core.memory("asteroids", [])
 
 def add(position, direction, size = None,):

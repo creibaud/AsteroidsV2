@@ -1,5 +1,3 @@
-import pygame
-import sys
 import core.settings.SpaceShip as spaceShipSettings
 
 def setLenght(length):

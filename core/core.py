@@ -7,6 +7,9 @@ import core.settings.asteroid as asteroidSettings
 import core.settings.game as gameSettings
 import core.screen as screenSetUp
 import core.SpaceShip as spaceShipSetUp
+import core.game as gameSetUp
+import core.asteroid as asteroidSetUp
+import core.bullet as bulletSetUp
 
 def memory(key: object, value: object = None) -> object:
     if " " in key:

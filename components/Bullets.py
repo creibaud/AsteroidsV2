@@ -2,6 +2,9 @@ import pygame
 import core.core as core
 
 def setUp():
+    core.bulletSetUp.setSpeed(10)
+    core.bulletSetUp.setShootInterval(150)
+    core.bulletSetUp.setRadius(3)
     core.memory("bullets", [])
 
 def add(position, direction):
