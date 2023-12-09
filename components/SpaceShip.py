@@ -58,7 +58,8 @@ def setUp():
     core.memory("framesHitAnimation", 0)
 
 # Update the spaceship
-def update():    
+def update():
+    # Update the position, velocity, acceleration, axe, alpha and points of the spaceship
     velocity = core.memory("SpaceShipVelocity")
     accelerate = core.memory("SpaceShipAcceleration")
     velocity += accelerate
@@ -66,11 +67,13 @@ def update():
 
     velocity = core.memory("SpaceShipVelocity")
 
+    # If the velocity is not 0, scale the velocity
     if velocity.length() != 0:
         velocity.scale_to_length(min(velocity.length(), core.spaceShipSettings.MAX_SPEED))
     
     P = core.memory("SpaceShipP")
-
+    
+    # If the spaceship is out of the screen
     if P.x < 0:
         P.x = core.screenSettings.WIDTH
     elif P.x > core.screenSettings.WIDTH:
@@ -80,7 +83,8 @@ def update():
         P.y = core.screenSettings.HEIGHT
     elif P.y > core.screenSettings.HEIGHT:
         P.y = 0
-    
+
+    # Update the Points
     P = core.memory("SpaceShipP")
     axe = core.memory("SpaceShipAxe")
     alpha = core.memory("SpaceShipAlpha")
@@ -98,6 +102,7 @@ def update():
     Bullets.update()
     bullets = [bullet for bullet in bullets if bullet[0].x <= core.screenSettings.WIDTH and bullet[0].x >= 0 and bullet[0].y <= core.screenSettings.HEIGHT and bullet[0].y >= 0]
 
+# Acceleration with trus power
 def accelerate():
     axe = core.memory("SpaceShipAxe")
     acceleration = core.memory("SpaceShipAcceleration")
@@ -105,22 +110,26 @@ def accelerate():
     acceleration += thrustVector
     core.memory("SpaceShipAcceleration", acceleration)
 
+# Deceleration
 def decelerate():
     acceleration = core.memory("SpaceShipAcceleration")
     acceleration *= core.spaceShipSettings.DECELERATION
     core.memory("SpaceShipAcceleration", acceleration)
 
+# Rotate the spaceship
 def rotate(angle):
     axe = core.memory("SpaceShipAxe")
     axe.rotate_ip(math.degrees(angle))
     axe = core.memory("SpaceShipAxe")
 
+# Hit the spaceship
 def shoot():
     axe = core.memory("SpaceShipAxe")
     direction = axe.copy()
     A = core.memory("SpaceShipA")
     Bullets.add(A, direction)
 
+# Animation for the hit
 def animationHit():
     framesHitAnimation = core.memory("framesHitAnimation")
 
@@ -136,6 +145,7 @@ def animationHit():
     if framesHitAnimation > 30:
         core.memory("framesHitAnimation", 0)
 
+# Draw the spaceship
 def draw(color):
     P = core.memory("SpaceShipP")
     B = core.memory("SpaceShipB")

@@ -57,12 +57,14 @@ def musicSetUp():
     pygame.mixer.music.set_endevent(pygame.constants.USEREVENT)
     pygame.mixer.music.play(-1)
 
+# Function to read
 def readFile(filename):
     file = open(filename, "r")
     content = file.read()
     file.close()
     return content
 
+# Function to write
 def writeFile(filename, content):
     file = open(filename, "w")
     file.write(content)
@@ -188,6 +190,7 @@ def main():
             Game.update()
             Game.draw()
 
+            # Write the Score if is over the Old Best Score
             score = int(core.memory("score"))
             BestScore = int(core.memory("BestScore"))
 
